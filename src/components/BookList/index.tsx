@@ -5,25 +5,6 @@ import styled from "styled-components";
 import { Book } from "../../types/book";
 import { books as mockBooks } from "../../mocks/books";
 
-const StyledTable = styled(Table)`
-  .ant-table-thead > tr > th {
-    background: #1a365d;
-    color: white;
-  }
-`;
-
-const ActionsContainer = styled.div`
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CoverImage = styled(Image)`
-  border-radius: 4px;
-  object-fit: cover;
-`;
-
 const BookList: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [books, setBooks] = useState<Book[]>(mockBooks);
@@ -133,3 +114,22 @@ const BookList: React.FC = () => {
 };
 
 export default BookList;
+
+const StyledTable = styled(Table)`
+  .ant-table-thead > tr > th {
+    background: #1a365d;
+    color: white;
+  }
+`;
+
+const ActionsContainer = styled.div`
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CoverImage = styled(Image)`
+  border-radius: 4px;
+  object-fit: cover;
+`;

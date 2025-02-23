@@ -1,84 +1,51 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  ConfigProvider,
-  Switch,
-  theme,
-  App as AntApp,
-} from "antd";
-import styled from "styled-components";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Layout, ConfigProvider, theme, App as AntApp } from "antd";
+import styled, { ThemeProvider } from "styled-components";
 import BookList from "./components/BookList";
 import { useThemeStore } from "./store/themeStore";
 import { lightTheme, darkTheme } from "./styles/themes";
-import { BookOutlined, SunOutlined, MoonOutlined } from "@ant-design/icons";
+import Profile from "./pages/Profile";
+import MainHeader from "./components/StyledHeader";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 const { defaultAlgorithm, darkAlgorithm } = theme;
 
 function App() {
-  const { theme: currentTheme, toggleTheme } = useThemeStore();
-
-  const menuItems = [
-    {
-      key: "/",
-      icon: <BookOutlined />,
-      label: <Link to="/">Books</Link>,
-    },
-  ];
+  const { theme: currentTheme } = useThemeStore();
 
   return (
-    <ConfigProvider
-      theme={{
-        ...(currentTheme === "dark" ? darkTheme : lightTheme),
-        algorithm: currentTheme === "dark" ? darkAlgorithm : defaultAlgorithm,
-      }}
-    >
-      <AntApp>
-        <Router>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <StyledLayout>
-                  <StyledHeader>
-                    <HeaderLeft>
-                      <HeaderTitle>Mystic Library 🔮</HeaderTitle>
-                      <Menu
-                        mode="horizontal"
-                        theme={currentTheme === "dark" ? "dark" : "light"}
-                        selectedKeys={[window.location.pathname]}
-                        items={menuItems}
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          marginLeft: 24,
-                        }}
-                      />
-                    </HeaderLeft>
-                    <HeaderRight>
-                      <ThemeSwitch
-                        checked={currentTheme === "dark"}
-                        onChange={toggleTheme}
-                        checkedChildren={<MoonOutlined />}
-                        unCheckedChildren={<SunOutlined />}
-                      />
-                    </HeaderRight>
-                  </StyledHeader>
-                  <StyledContent>
-                    <ContentWrapper theme={{ theme: currentTheme }}>
-                      <Routes>
-                        <Route path="/" element={<BookList />} />
-                      </Routes>
-                    </ContentWrapper>
-                  </StyledContent>
-                </StyledLayout>
-              }
-            />
-          </Routes>
-        </Router>
-      </AntApp>
-    </ConfigProvider>
+    <ThemeProvider theme={currentTheme === "dark" ? darkTheme : lightTheme}>
+      <ConfigProvider
+        theme={{
+          ...(currentTheme === "dark" ? darkTheme : lightTheme),
+          algorithm: currentTheme === "dark" ? darkAlgorithm : defaultAlgorithm,
+        }}
+      >
+        <AntApp>
+          <Router>
+            <StyledLayout>
+              <MainHeader />
+              <Routes>
+                <Route path="/profile" element={<Profile />} />
+                <Route
+                  path="/"
+                  element={
+                    <StyledContent>
+                      <ContentWrapper theme={{ theme: currentTheme }}>
+                        <Routes>
+                          <Route path="/login" element={<Profile />} />
+                          <Route path="/" element={<BookList />} />
+                        </Routes>
+                      </ContentWrapper>
+                    </StyledContent>
+                  }
+                />
+              </Routes>
+            </StyledLayout>
+          </Router>
+        </AntApp>
+      </ConfigProvider>
+    </ThemeProvider>
   );
 }
 
@@ -86,36 +53,6 @@ export default App;
 
 const StyledLayout = styled(Layout)`
   min-height: 100vh;
-`;
-
-const StyledHeader = styled(Header)`
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const HeaderTitle = styled.h1`
-  color: #ffffff;
-  margin: 0;
-  font-size: 20px;
-`;
-
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const HeaderRight = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-`;
-
-const ThemeSwitch = styled(Switch)`
-  &.ant-switch-checked {
-    background: #4a9eff;
-  }
 `;
 
 const StyledContent = styled(Content)`
