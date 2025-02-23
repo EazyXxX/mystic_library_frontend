@@ -1,7 +1,7 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
 import styled from "styled-components";
-import { Book } from "../../../types/book";
+import { Book } from "../../types/book";
 
 interface BookStatisticsProps {
   books: Book[];

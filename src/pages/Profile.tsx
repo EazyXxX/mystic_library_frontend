@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Avatar, Card, Typography } from "antd";
 import { useAuthStore } from "../store/authStore";
-import BookStatistics from "../components/BookList/BookStatistics";
+import BookStatistics from "../components/BookList";
 import { books as mockBooks } from "../mocks/books";
 import { UserOutlined } from "@ant-design/icons";
 
